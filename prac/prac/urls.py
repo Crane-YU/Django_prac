@@ -22,6 +22,7 @@ urlpatterns = [
     # url中的额外参数
     url(r'^yourname/$', tv.extremparam, {"name": "Crane"}),
 
+    # url反向解析：给url赋予一个名字，若url被修改也不会影响查找它的name
     url(r'^mayiknowyourname/$', tv.revParser, name = 'askname'),
 
 

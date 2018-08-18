@@ -31,8 +31,36 @@
        
             url(r'index_2/(?:page-(?P<page_number>\d+)/)?$', sv.myindex_2), #此方法较好
             
-# 
+# 手动编写视图
+- 实验目的：
+- 利用Django快捷函数手动编写视图，处理函数
 
+- 分析：
+    - Django把所有的请求信息封装入request
+    - Django通过urls模块把相应请求和事件处理函数连接起来，并把request作为函数传入
+    - 在相应的函数处理中，我们需要完成两个部分：
+        - 处理业务
+        - 把结果封装并返回，我们可以使用简单HttpResponse，同样也可以自己处理此功能
+
+- render(request, template_name[, context][, contest_instance][, content type])
+    - 使用模版和一个给定的上下文环境，返回一个渲染和HttpResponse对象
+    - request：Django的传入请求
+    - template_name：模版名称
+    - context_instance：上下文环境
+    
+- 系统内建视图(可以直接使用)
+    - 404
+        - defaults.page_not_found(request, template_name='404.html')
+        - 系统引发Http404时触发
+        - DEBUG = TRUE则不会调用404，取而代之是调试信息
+    - 500(server error)
+        - defaults.server_error(request, template_name='500.html')
+        - DEBUG = TRUE则不会调用500，需要DEBUG = FALSE
+    - 403(Http Forbidden)
+        - defaults.permission_denied(request, template_name='403.html')
+    - 400(bad request)
+        - defaults.bad_request(request, template_name='400.html')
+        - DEBUG = TRUE则不会调用500，需要DEBUG = FALSE
 
 
 # 知识点：
@@ -41,3 +69,4 @@
 3. 关闭debug的方法：setting -> DEBUG = False
 4. HTTP本身无记忆功能，python中有一个类似于记事本的东西(session)，记录下你的保存记录，并赋予编号
 等到下次要访问的时候，带上编号，就会记得起保存的东西
+5. 在request和post时，要关闭Django自带的防御系统，即'django.middleware.csrf.CsrfViewMiddleware'
